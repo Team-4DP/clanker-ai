@@ -1,0 +1,40 @@
+# Secrets
+.env
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# AI memory storage
+memory/*.db
+chroma/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor settings
+.vscode/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Large model files
+*.bin
+*.safetensors
+*.gguf

@@ -1,4 +1,10 @@
 # Project Veridion
+Project Status
+
+Veridion is currently in early development (v0.1 Beta).
+
+The project is functional but experimental. Expect breaking changes as the architecture evolves.
+
 PLEASE VIEW IN CODE FORM INSTEAD OF PREVIEW!!! This is just beause the charts don't work in preview. Thank you.
 This is my new project, just licenced under Team-4DP, it is an AI chatbot I have made myself. Please feel free to fork this repository and use it. If there are any issues, please tell me and/or bring it up in the issues tab, i will try to help. As far as im aware, this uses gihub's codespace feature to host the AI instead of using your own hardware. Bring any suggestion like a downloadable offline version that does run on your own hardware or any extra features that are not mentioned in the roadmap below in the discussions tab. The plan going forwards from here (version 0.1 beta at this moment in time) is shown below, along with a quick start up guide.
 We have picked the name Veridion because it is:

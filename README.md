@@ -1,8 +1,17 @@
 # Project Veridion
 Project Status
 
-Veridion is currently in early development (v0.1 Beta).
-
+Veridion is currently in early development (Genesis).
+| Version | Codename   |
+| ------- | ---------- |
+| 0.1     | Genesis    |
+| 0.2     | Foundation |
+| 0.3     | Explorer   |
+| 0.4     | Insight    |
+| 0.5     | Forge      |
+| 0.6     | Memory     |
+| 0.7     | Architects |
+| 1.0     | Ascension  |
 The project is functional but experimental. Expect breaking changes as the architecture evolves.
 
 PLEASE VIEW IN CODE FORM INSTEAD OF PREVIEW!!! This is just beause the charts don't work in preview. Thank you.

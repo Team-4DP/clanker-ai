@@ -1,3 +1,11 @@
+"""
+sqlite_memory.py
+
+Provides persistent conversation storage for Veridion using SQLite.
+"""
+
+from __future__ import annotations
+
 import sqlite3
 from pathlib import Path
 
@@ -6,20 +14,34 @@ from memory.conversation import ChatMessage
 
 class SQLiteMemory:
     """
-    Stores conversations inside a SQLite database.
+    Handles persistent conversation storage using SQLite.
+
+    This class is responsible for:
+        - Creating the database
+        - Saving messages
+        - Loading recent messages
+        - Clearing conversation history
+
+    No other part of Veridion should interact with SQLite directly.
     """
 
     def __init__(self, database: Path) -> None:
+        """
+        Initialise the SQLite memory service.
+
+        Args:
+            database:
+                Path to the SQLite database file.
+        """
         self.database = database
         self._initialise_database()
 
-    # Step 3
     def _initialise_database(self) -> None:
         """
-        Creates the database and conversation table if they do not exist.
+        Create the database and conversation table if they do not exist.
         """
 
-        self.database.parent.mkdir(exist_ok=True)
+        self.database.parent.mkdir(parents=True, exist_ok=True)
 
         with sqlite3.connect(self.database) as connection:
             cursor = connection.cursor()
@@ -37,14 +59,20 @@ class SQLiteMemory:
 
             connection.commit()
 
-    # Step 4
     def save_message(
         self,
         role: str,
         content: str,
     ) -> None:
         """
-        Save a message to the database.
+        Save a message to the conversation history.
+
+        Args:
+            role:
+                Message sender ("user", "assistant", etc.).
+
+            content:
+                Message text.
         """
 
         with sqlite3.connect(self.database) as connection:
@@ -52,8 +80,7 @@ class SQLiteMemory:
 
             cursor.execute(
                 """
-                INSERT INTO conversation
-                (
+                INSERT INTO conversation (
                     role,
                     content
                 )
@@ -64,13 +91,19 @@ class SQLiteMemory:
 
             connection.commit()
 
-    # Step 5
     def get_recent_messages(
         self,
         limit: int,
     ) -> list[ChatMessage]:
         """
-        Return the most recent messages.
+        Retrieve the most recent conversation messages.
+
+        Args:
+            limit:
+                Maximum number of messages to return.
+
+        Returns:
+            Messages ordered from oldest to newest.
         """
 
         with sqlite3.connect(self.database) as connection:
@@ -91,16 +124,18 @@ class SQLiteMemory:
             rows = cursor.fetchall()
 
         messages = [
-            ChatMessage(role=row[0], content=row[1])
+            ChatMessage(
+                role=row[0],
+                content=row[1],
+            )
             for row in rows
         ]
 
         return list(reversed(messages))
 
-    # Step 6
     def clear(self) -> None:
         """
-        Delete all conversation history.
+        Remove all conversation history.
         """
 
         with sqlite3.connect(self.database) as connection:
@@ -109,3 +144,25 @@ class SQLiteMemory:
             cursor.execute("DELETE FROM conversation")
 
             connection.commit()
+
+    def count_messages(self) -> int:
+        """
+        Return the number of stored messages.
+
+        Returns:
+            Total message count.
+        """
+
+        with sqlite3.connect(self.database) as connection:
+            cursor = connection.cursor()
+
+            cursor.execute(
+                """
+                SELECT COUNT(*)
+                FROM conversation
+                """
+            )
+
+            result = cursor.fetchone()
+
+        return int(result[0]) if result else 0

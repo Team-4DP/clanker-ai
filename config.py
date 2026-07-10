@@ -1,28 +1,61 @@
+"""
+config.py
+
+Central configuration for Veridion.
+
+This module contains configurable settings used throughout the
+application. It should not contain application logic.
+"""
+
+from pathlib import Path
 import os
+
 from dotenv import load_dotenv
+
+# ---------------------------------------------------------------------
+# Load environment variables
+# ---------------------------------------------------------------------
 
 load_dotenv()
 
-HF_TOKEN = os.getenv("HF_TOKEN")
-
-if not HF_TOKEN:
-    raise ValueError("HF_TOKEN is missing. Check your .env file.")
-from pathlib import Path
-
-# -------------------------
+# ---------------------------------------------------------------------
 # Project Paths
-# -------------------------
+# ---------------------------------------------------------------------
 
-PROJECT_ROOT = Path(__file__).resolve().parent
+PROJECT_ROOT: Path = Path(__file__).resolve().parent
 
-DATA_DIR = PROJECT_ROOT / "data"
+DATA_DIR: Path = PROJECT_ROOT / "data"
 
-DATABASE_PATH = DATA_DIR / "veridion.db"
+DATABASE_PATH: Path = DATA_DIR / "veridion.db"
 
-# -------------------------
-# AI Settings
-# -------------------------
+# ---------------------------------------------------------------------
+# Hugging Face
+# ---------------------------------------------------------------------
 
-MODEL_NAME = "Qwen/Qwen2.5-7B-Instruct"
+HF_TOKEN: str | None = os.getenv("HF_TOKEN")
 
-MAX_HISTORY = 20
+MODEL_NAME: str = "Qwen/Qwen2.5-7B-Instruct"
+
+# ---------------------------------------------------------------------
+# Conversation
+# ---------------------------------------------------------------------
+
+MAX_HISTORY: int = 20
+
+# ---------------------------------------------------------------------
+# Generation Settings
+# ---------------------------------------------------------------------
+
+TEMPERATURE: float = 0.7
+
+MAX_NEW_TOKENS: int = 1024
+
+# ---------------------------------------------------------------------
+# Logging
+# ---------------------------------------------------------------------
+
+LOG_LEVEL: str = "INFO"
+
+LOG_FORMAT: str = (
+    "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
+)

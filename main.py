@@ -1,13 +1,23 @@
-from llm.hf_client import ask_ai
+from core.assistant import Veridion
 
 
-while True:
+def main() -> None:
+    assistant = Veridion()
 
-    user_input = input("You: ")
+    print("Welcome to Veridion!")
+    print("Type 'exit' to quit.\n")
 
-    if user_input.lower() == "quit":
-        break
+    while True:
+        user_input = input("> ")
 
-    answer = ask_ai(user_input)
+        if user_input.lower() == "exit":
+            break
 
-    print("\nAtlas:", answer)
+        response = assistant.chat(user_input)
+
+        print(response)
+        print()
+
+
+if __name__ == "__main__":
+    main()

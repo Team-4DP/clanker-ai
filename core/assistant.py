@@ -9,7 +9,7 @@ from config import DATABASE_PATH, MAX_HISTORY
 from core.chat import ChatManager
 from core.prompt_builder import PromptBuilder
 
-from llm.factory import create_llm
+from llm.provider_manager import ProviderManager
 
 from memory.sqlite_memory import SQLiteMemory
 
@@ -25,10 +25,10 @@ class Veridion:
 
         self.prompt_builder = PromptBuilder()
 
-        self.llm = create_llm()
+        self.provider_manager = ProviderManager()
 
         self.chat_manager = ChatManager(
-            llm=self.llm,
+            llm=self.provider_manager.provider,
             memory=self.memory,
         )
 

@@ -37,15 +37,32 @@ HF_TOKEN: str | None = os.getenv("HF_TOKEN")
 MODEL_NAME: str = "Qwen/Qwen2.5-7B-Instruct"
 
 # ---------------------------------------------------------------------
-# LLM Provider
+# LLM Configuration
 # ---------------------------------------------------------------------
 
-LLM_PROVIDER: str = "huggingface"
+LLM_PROVIDER: str = os.getenv(
+    "LLM_PROVIDER",
+    "huggingface",
+)
 
-HF_TOKEN: str | None = os.getenv("HF_TOKEN")
+MODEL_NAME: str = os.getenv(
+    "MODEL_NAME",
+    "Qwen/Qwen2.5-7B-Instruct",
+)
 
-MODEL_NAME: str = "Qwen/Qwen2.5-7B-Instruct"
+TEMPERATURE: float = float(
+    os.getenv(
+        "TEMPERATURE",
+        "0.7",
+    )
+)
 
+MAX_NEW_TOKENS: int = int(
+    os.getenv(
+        "MAX_NEW_TOKENS",
+        "1024",
+    )
+)
 # ---------------------------------------------------------------------
 # Conversation
 # ---------------------------------------------------------------------

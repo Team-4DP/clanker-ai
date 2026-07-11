@@ -1,13 +1,13 @@
 """
 assistant.py
 
-Main Veridion assistant class.
+Main Veridion assistant.
 """
 
-from config import DATABASE_PATH
+from config import DATABASE_PATH, MAX_HISTORY
 
-from core.prompts import SYSTEM_PROMPT
 from core.chat import ChatManager
+from core.prompt_builder import PromptBuilder
 
 from llm.factory import create_llm
 
@@ -23,6 +23,8 @@ class Veridion:
 
         self.memory = SQLiteMemory(DATABASE_PATH)
 
+        self.prompt_builder = PromptBuilder()
+
         self.llm = create_llm()
 
         self.chat_manager = ChatManager(
@@ -34,32 +36,15 @@ class Veridion:
         self,
         user_message: str,
     ) -> str:
-        """
-        Process a user message.
-        """
 
         self.memory.save_message(
             role="user",
             content=user_message,
         )
 
-        history = self.memory.get_recent_messages(20)
+        history = self.memory.get_recent_messages(MAX_HISTORY)
 
-        messages = [
-            {
-                "role": "system",
-                "content": SYSTEM_PROMPT,
-            }
-        ]
-
-        for message in history:
-
-            messages.append(
-                {
-                    "role": message.role,
-                    "content": message.content,
-                }
-            )
+        messages = self.prompt_builder.build(history)
 
         response = self.chat_manager.chat(messages)
 

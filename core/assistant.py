@@ -12,6 +12,8 @@ from core.prompt_builder import PromptBuilder
 from llm.provider_manager import ProviderManager
 
 from memory.sqlite_memory import SQLiteMemory
+from core.intent import Intent
+from core.intent_classifier import IntentClassifier
 
 
 class Veridion:
@@ -24,6 +26,8 @@ class Veridion:
         self.memory = SQLiteMemory(DATABASE_PATH)
 
         self.prompt_builder = PromptBuilder()
+
+        self.intent_classifier = IntentClassifier()
 
         self.provider_manager = ProviderManager()
 
@@ -44,7 +48,12 @@ class Veridion:
 
         history = self.memory.get_recent_messages(MAX_HISTORY)
 
-        messages = self.prompt_builder.build(history)
+        intent = self.intent_classifier.classify(user_message)
+
+        messages = self.prompt_builder.build(
+            history=history,
+            intent=intent,
+        )
 
         response = self.chat_manager.chat(messages)
 

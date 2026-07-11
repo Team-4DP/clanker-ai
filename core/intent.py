@@ -19,4 +19,4 @@ class Intent(Enum):
     RESEARCH = "research"
     WEB_SEARCH = "web_search"
     FILE = "file"
-    PLANNING = "planning"
+    DESIGN = "design"
